@@ -4,6 +4,8 @@ const { check, validationResult } = require("express-validator");
 
 const userService = require("../services/users");
 
+const auth = require("../../middleware/auth");
+
 // @route    POST api/users/register
 // @desc     Register user
 // @access   Public
@@ -38,10 +40,7 @@ router.post(
   "/login",
   [
     check("email", "Please Include a valid email").isEmail(),
-    check(
-      "password",
-      "Please enter a password"
-    ).exists(),
+    check("password", "Please enter a password").exists(),
   ],
   (req, res) => {
     const errors = validationResult(req);
@@ -79,5 +78,13 @@ router.put(
     return userService.changePassword(req, res);
   }
 );
+
+// @route    GET api/users
+// @desc     Get User details
+// @access   Public
+
+router.get("/", auth, (req, res) => {
+  return userService.userDetails(req, res);
+});
 
 module.exports = router;

@@ -142,4 +142,17 @@ const changePassword = async (req, res) => {
   return res;
 };
 
-module.exports = { register, login, changePassword };
+/*
+ * Get User Details
+ */
+const userDetails = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({'msg':'Unable to fetch user details'})
+  }
+  return res;
+};
+
+module.exports = { register, login, changePassword,userDetails };
