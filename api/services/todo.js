@@ -97,4 +97,20 @@ const deleteAll = async (req, res) => {
   return res;
 };
 
-module.exports = { add, update, deleteTodo, deleteAll };
+/*
+ * Get All Todos
+ */
+const getAll = async (req, res) => {
+  try {
+    const todo = await Todo.find({ user: req.user.id, priority: false });
+
+    res.json(todo);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).send("Server Error");
+  }
+
+  return res;
+};
+
+module.exports = { add, update, deleteTodo, deleteAll,getAll };

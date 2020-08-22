@@ -71,4 +71,12 @@ router.delete("/", auth, (req, res) => {
   return todoService.deleteAll(req, res);
 });
 
+// @route    Get api/todo
+// @desc     Get All Todos
+// @access   Public
+
+router.get("/", auth, (req, res) => {
+  return todoService.getAll(req, res);
+});
+
 module.exports = router;
