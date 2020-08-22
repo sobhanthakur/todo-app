@@ -102,7 +102,7 @@ const deleteAll = async (req, res) => {
  */
 const getAll = async (req, res) => {
   try {
-    const todo = await Todo.find({ user: req.user.id, priority: false });
+    const todo = await Todo.find({ user: req.user.id, priority: req.params.priority });
 
     res.json(todo);
   } catch (err) {

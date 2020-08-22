@@ -71,11 +71,11 @@ router.delete("/", auth, (req, res) => {
   return todoService.deleteAll(req, res);
 });
 
-// @route    Get api/todo
+// @route    Get api/todo/:priority
 // @desc     Get All Todos
 // @access   Public
 
-router.get("/", auth, (req, res) => {
+router.get("/:priority", auth, (req, res) => {
   return todoService.getAll(req, res);
 });
 
