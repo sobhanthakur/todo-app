@@ -1,14 +1,17 @@
 const express = require("express");
+
+const connectDB = require("./config/db")
+
 const app = express();
+
+// Connect to DB
+connectDB()
 
 // Init middleware
 // This helps to pass the request body to the controllers
 app.use(express.json({extended:false}))
 
-// Define Routes
-app.use('/', (req,res) => {
-    res.json({msg:"Initial Code Setup"})
-});
+app.use('/api/users', require('./api/controllers/users'));
 
 const PORT = process.env.PORT || 5000;
 
