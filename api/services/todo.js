@@ -81,4 +81,20 @@ const deleteTodo = async (req, res) => {
   return res;
 };
 
-module.exports = { add, update, deleteTodo };
+/*
+ * Delete All Todos
+ */
+const deleteAll = async (req, res) => {
+  try {
+    await Todo.find({ user: req.user.id }).deleteMany();
+
+    res.json({ msg: "Todos removed" });
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).send("Server Error");
+  }
+
+  return res;
+};
+
+module.exports = { add, update, deleteTodo, deleteAll };
