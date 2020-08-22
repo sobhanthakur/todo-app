@@ -26,4 +26,34 @@ const add = async (req, res) => {
   return res;
 };
 
-module.exports = { add };
+/*
+ * Update the Todo Task
+ */
+const update = async (req, res) => {
+  const { description, priority } = req.body;
+
+  try {
+    const todo = await Todo.findById(req.params.id);
+
+    if (!todo) return res.status(404).json({ msg: "Todo Not Found" });
+
+    if (todo.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: "User not authorized" });
+    }
+
+    // Update the todo here
+    todo.description = description;
+    todo.priority = priority;
+
+    await todo.save();
+
+    res.json(todo);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).send("Server Error");
+  }
+
+  return res;
+};
+
+module.exports = { add, update };
