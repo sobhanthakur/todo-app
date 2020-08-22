@@ -55,4 +55,12 @@ router.put(
   }
 );
 
+// @route    DELETE api/todo
+// @desc     Delete Todo By ID
+// @access   Public
+
+router.delete("/:id", [checkObjectId("id"), auth], (req, res) => {
+  return todoService.deleteTodo(req, res);
+});
+
 module.exports = router;
