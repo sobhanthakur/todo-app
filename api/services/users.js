@@ -94,7 +94,7 @@ const login = async (req, res) => {
       payload,
       config.get("jwtSecret"),
       {
-        expiresIn: 360000,
+        expiresIn: constants.token_expiry,
       },
       (err, token) => {
         if (err) {
@@ -112,4 +112,34 @@ const login = async (req, res) => {
   return res;
 };
 
-module.exports = { register, login };
+/*
+ * Change User Password
+ */
+const changePassword = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // See if user already exists
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({ errors: [{ msg: "Email not found" }] });
+    }
+
+    // Encrypt users password using bcrypt
+    const salt = await bcrypt.genSalt(10);
+
+    user.password = await bcrypt.hash(password, salt);
+
+    // Save to DB (Commit)
+    await user.save();
+
+    res.status(201).json({ msg: "Password changed successfully" });
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).send("Server Error");
+  }
+  return res;
+};
+
+module.exports = { register, login, changePassword };
