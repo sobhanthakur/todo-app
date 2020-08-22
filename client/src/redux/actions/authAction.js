@@ -8,6 +8,7 @@ import {
 import axios from "axios";
 
 import setAuthToken from "../../utils/setAuthToken";
+import { setAlert } from "./alertAction";
 
 // Load User
 export const loadUser = () => async (dispatch) => {
@@ -16,7 +17,7 @@ export const loadUser = () => async (dispatch) => {
   }
 
   try {
-    // const res = await axios.get("/api/auth");
+    const res = await axios.get("/api/users");
 
     dispatch({
       type: USER_LOADED,
@@ -52,9 +53,9 @@ export const login = (email, password) => async (dispatch) => {
     // Show Alert
     const errors = err.response;
     if (errors) {
-      // errors.data.errors.forEach((error) =>
-      //   dispatch(setAlert(error.msg, "danger", 4000))
-      // );
+      errors.data.errors.forEach((error) =>
+        dispatch(setAlert(error.msg, "danger", 4000))
+      );
     }
 
     // Dispatch LOGIN_FAIL
@@ -64,7 +65,7 @@ export const login = (email, password) => async (dispatch) => {
   }
 };
 
-// Logout and clear profiles
+// Logout and clear everything
 export const logout = () => (dispatch) => {
   dispatch({
     type: LOGOUT,
