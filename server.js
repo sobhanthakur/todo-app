@@ -12,6 +12,7 @@ connectDB()
 app.use(express.json({extended:false}))
 
 app.use('/api/users', require('./api/controllers/users'));
+app.use('/api/todo', require('./api/controllers/todo'));
 
 const PORT = process.env.PORT || 5000;
 
