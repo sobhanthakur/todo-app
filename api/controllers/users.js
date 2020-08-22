@@ -30,4 +30,29 @@ router.post(
   }
 );
 
+// @route    POST api/users/login
+// @desc     Login user
+// @access   Public
+
+router.post(
+  "/login",
+  [
+    check("email", "Please Include a valid email").isEmail(),
+    check(
+      "password",
+      "Please enter a password"
+    ).exists(),
+  ],
+  (req, res) => {
+    const errors = validationResult(req);
+
+    // Throw Exception if validation fails
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    return userService.login(req, res);
+  }
+);
+
 module.exports = router;
