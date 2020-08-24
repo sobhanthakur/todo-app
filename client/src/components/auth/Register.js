@@ -9,10 +9,10 @@ import {
   Input,
 } from "reactstrap";
 import { Link, Redirect } from "react-router-dom";
-import { login } from "../../redux/actions/authAction";
+import { register } from "../../redux/actions/authAction";
 import { useSelector, useDispatch } from "react-redux";
 
-const Login = () => {
+const Register = () => {
   const authenticated = useSelector((state) => ({
     auth: state.authReducer.isAuthenticated,
   }));
@@ -21,16 +21,17 @@ const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
+    name: ""
   });
 
-  const { email, password } = formData;
+  const { email, password, name } = formData;
 
   const changeFormData = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await dispatch(login(email, password));
+    await dispatch(register(formData));
   };
 
   // Redirect if logged in
@@ -41,8 +42,18 @@ const Login = () => {
   return (
     <div className="container mt-5" id="loginCustom">
       <Card className="text-center">
-        <CardHeader tag="h3">Sign In Here</CardHeader>
-        <Form className="m-2" onSubmit={(e) => onSubmit(e)}>
+        <CardHeader tag="h3">Sign Up Here</CardHeader>
+        <Form className="m-2" onSubmit={e => onSubmit(e)}>
+        <FormGroup>
+            <Input
+              type="text"
+              name="name"
+              placeholder="Enter your Name"
+              value={name}
+              onChange={(e) => changeFormData(e)}
+              required
+            />
+          </FormGroup>  
           <FormGroup>
             <Input
               type="email"
@@ -64,15 +75,15 @@ const Login = () => {
             />
           </FormGroup>
           <FormGroup>
-            <Button color="info">Log In</Button>{" "}
+            <Button color="info">Sign Up</Button>{" "}
           </FormGroup>
         </Form>
         <CardFooter>
-          <Link to="/register">New User? Sign Up here</Link>
+          <Link to="/">Back to Login</Link>
         </CardFooter>
       </Card>
     </div>
   );
 };
 
-export default Login;
+export default Register;

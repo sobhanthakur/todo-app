@@ -7,6 +7,7 @@ import Landing from "../dashboard/Landing";
 import NavbarComponent from "../layout/NavbarComponent";
 import { useSelector } from "react-redux";
 import PriorityAssignment from "../dashboard/PriorityAssignment";
+import Register from "../auth/Register";
 
 const Routes = (props) => {
   const state = useSelector((state) => ({
@@ -18,6 +19,7 @@ const Routes = (props) => {
       {state.auth && <NavbarComponent></NavbarComponent>}
       <Switch>
         <Route exact path="/" component={Login} />
+        <Route exact path="/register" component={Register} />
         <PrivateRoute
           exact
           path="/dashboard"
