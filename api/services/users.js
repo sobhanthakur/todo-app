@@ -1,7 +1,6 @@
 const User = require("../../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const config = require("config");
 const constants = require("../../constants/generalConstants");
 
 /*
@@ -42,7 +41,7 @@ const register = async (req, res) => {
 
     jwt.sign(
       payload,
-      config.get("jwtSecret"),
+      process.env.jwtSecret,
       {
         expiresIn: constants.token_expiry,
       },
@@ -92,7 +91,7 @@ const login = async (req, res) => {
 
     jwt.sign(
       payload,
-      config.get("jwtSecret"),
+      process.env.jwtSecret,
       {
         expiresIn: constants.token_expiry,
       },
