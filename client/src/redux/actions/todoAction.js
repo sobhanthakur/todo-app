@@ -12,11 +12,15 @@ import {
 } from "../types";
 import axios from "axios";
 
+import setAuthToken from "../../utils/setAuthToken";
 import { setAlert } from "./alertAction";
 
 // Load Todos
 export const getTodos = (priority = false) => async (dispatch) => {
   try {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
     const res = await axios.get("/api/todo/" + priority);
 
     if (!priority) {
@@ -31,7 +35,7 @@ export const getTodos = (priority = false) => async (dispatch) => {
       });
     }
   } catch (err) {
-    setAlert("Something went wrong", "danger", 4000);
+    dispatch(setAlert("Something went wrong", "danger", 4000));
   }
 };
 
@@ -51,9 +55,9 @@ export const removeTodo = (priority, id) => async (dispatch) => {
         payload: id,
       });
     }
-    setAlert("Todo Deleted", "success", 4000);
+    dispatch(setAlert("Todo Deleted", "success", 4000));
   } catch (err) {
-    setAlert("Something went wrong", "danger", 4000);
+    dispatch(setAlert("Something went wrong", "danger", 4000));
   }
 };
 
@@ -80,9 +84,9 @@ export const updateTodo = (priority, id, description) => async (dispatch) => {
         payload: res.data,
       });
     }
-    setAlert("Todo Deleted", "success", 4000);
+    dispatch(setAlert("Todo Deleted", "success", 4000));
   } catch (err) {
-    setAlert("Something went wrong", "danger", 4000);
+    dispatch(setAlert("Something went wrong", "danger", 4000));
   }
 };
 
@@ -102,8 +106,8 @@ export const addTodo = (priority, payload) => async (dispatch) => {
         payload: res.data,
       });
     }
-    setAlert("Todo added", "success", 4000);
+    dispatch(setAlert("Todo added", "success", 4000));
   } catch (err) {
-    setAlert("Something went wrong", "danger", 4000);
+    dispatch(setAlert("Something went wrong", "danger", 4000));
   }
 };

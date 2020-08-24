@@ -77,7 +77,9 @@ const TodoForm = () => {
                   type="checkbox"
                   id="checkbox2"
                   name="priority"
-                  onChange={(e) => changeFormData(e)}
+                  onChange={(e) =>
+                    setFormData({ ...formData, priority: !priority })
+                  }
                   checked={priority}
                 />{" "}
                 Check this for Priority assignment

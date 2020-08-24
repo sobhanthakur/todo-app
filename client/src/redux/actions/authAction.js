@@ -5,7 +5,8 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   REGISTER_FAIL,
-  REGISTER_SUCCESS
+  REGISTER_SUCCESS,
+  CLEAR_TODO
 } from "../types";
 import axios from "axios";
 
@@ -71,6 +72,10 @@ export const login = (email, password) => async (dispatch) => {
 export const logout = () => (dispatch) => {
   dispatch({
     type: LOGOUT,
+  });
+
+  dispatch({
+    type: CLEAR_TODO,
   });
 };
 

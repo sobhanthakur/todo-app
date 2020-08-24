@@ -39,7 +39,7 @@ const Login = () => {
   }
 
   return (
-    <div className="container mt-5" style={{ width: "500px" }}>
+    <div className="container mt-5" id="loginCustom">
       <Card className="text-center">
         <CardHeader tag="h3">Sign In Here</CardHeader>
         <Form className="m-2" onSubmit={(e) => onSubmit(e)}>
