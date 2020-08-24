@@ -4,6 +4,8 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
+  REGISTER_FAIL,
+  REGISTER_SUCCESS
 } from "../types";
 import axios from "axios";
 
@@ -70,4 +72,34 @@ export const logout = () => (dispatch) => {
   dispatch({
     type: LOGOUT,
   });
+};
+
+
+// Register User
+export const register = (payload) => async (dispatch) => {
+
+
+  try {
+    const res = await axios.post("/api/users/register", payload);
+
+    dispatch({
+      type: REGISTER_SUCCESS,
+      payload: res.data,
+    });
+
+    dispatch(loadUser());
+  } catch (err) {
+    // Show Alert
+    const errors = err.response;
+    if (errors) {
+      errors.data.errors.forEach((error) =>
+        dispatch(setAlert(error.msg, "danger", 4000))
+      );
+    }
+
+    // Dispatch REGISTER_FAIL
+    dispatch({
+      type: REGISTER_FAIL,
+    });
+  }
 };
