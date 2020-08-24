@@ -111,3 +111,17 @@ export const addTodo = (priority, payload) => async (dispatch) => {
     dispatch(setAlert("Something went wrong", "danger", 4000));
   }
 };
+
+export const removeAllTodo = () => async (dispatch) => {
+  try {
+    await axios.delete("/api/todo/");
+
+    dispatch({
+      type: REMOVE_ALL_TODO,
+    });
+
+    dispatch(setAlert("Todo Deleted", "success", 4000));
+  } catch (err) {
+    dispatch(setAlert("Something went wrong", "danger", 4000));
+  }
+};

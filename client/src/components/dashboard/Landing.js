@@ -2,8 +2,9 @@ import React, { useEffect } from "react";
 import TodoForm from "./TodoForm";
 import { useSelector, useDispatch } from "react-redux";
 import TodoList from "./TodoList";
-import { Spinner, Table } from "reactstrap";
+import { Spinner, Table, Button } from "reactstrap";
 import { getTodos } from "../../redux/actions/todoAction";
+import DeleteAll from "./DeleteAll";
 
 const Landing = () => {
   const dispatch = useDispatch();
@@ -17,6 +18,7 @@ const Landing = () => {
   return (
     <div className="mt-5">
       <TodoForm />
+      <DeleteAll />
       {state.todos.loading ? (
         <Spinner color="warning" />
       ) : (
