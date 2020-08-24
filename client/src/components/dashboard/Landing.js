@@ -12,7 +12,7 @@ const Landing = () => {
   }));
   useEffect(() => {
     dispatch(getTodos(false));
-  }, [dispatch]);
+  }, []);
 
   return (
     <div className="mt-5">

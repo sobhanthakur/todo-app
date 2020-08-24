@@ -33,7 +33,7 @@ const TodoList = ({ todo }) => {
   return (
     <>
       <tr>
-        <td>{todo.createdAt}</td>
+        <td>{todo.createdAt.split("T")[0]}</td>
         <td>
           <Button color="link" onClick={toggle}>
             {todo.title}

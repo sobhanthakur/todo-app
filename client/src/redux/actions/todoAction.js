@@ -59,29 +59,51 @@ export const removeTodo = (priority, id) => async (dispatch) => {
 
 // Update Todo
 export const updateTodo = (priority, id, description) => async (dispatch) => {
-    const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-    
-      const body = JSON.stringify({ description });
-    try {
-      const res = await axios.put("/api/todo/" + id,body,config);
-  
-      if (!priority) {
-        dispatch({
-          type: UPDATE_TODO,
-          payload: res.date,
-        });
-      } else {
-        dispatch({
-          type: UPDATE_PRIORITY_TODO,
-          payload: res.data,
-        });
-      }
-      setAlert("Todo Deleted", "success", 4000);
-    } catch (err) {
-      setAlert("Something went wrong", "danger", 4000);
-    }
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
   };
+
+  const body = JSON.stringify({ description });
+  try {
+    const res = await axios.put("/api/todo/" + id, body, config);
+
+    if (!priority) {
+      dispatch({
+        type: UPDATE_TODO,
+        payload: res.data,
+      });
+    } else {
+      dispatch({
+        type: UPDATE_PRIORITY_TODO,
+        payload: res.data,
+      });
+    }
+    setAlert("Todo Deleted", "success", 4000);
+  } catch (err) {
+    setAlert("Something went wrong", "danger", 4000);
+  }
+};
+
+// add Todo
+export const addTodo = (priority, payload) => async (dispatch) => {
+  try {
+    const res = await axios.post("/api/todo/", payload);
+
+    if (!priority) {
+      dispatch({
+        type: ADD_TODO,
+        payload: res.data,
+      });
+    } else {
+      dispatch({
+        type: ADD_PRIORITY_TODO,
+        payload: res.data,
+      });
+    }
+    setAlert("Todo added", "success", 4000);
+  } catch (err) {
+    setAlert("Something went wrong", "danger", 4000);
+  }
+};
