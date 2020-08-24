@@ -30,7 +30,7 @@ const add = async (req, res) => {
  * Update the Todo Task
  */
 const update = async (req, res) => {
-  const { description, priority } = req.body;
+  const { description } = req.body;
 
   try {
     const todo = await Todo.findById(req.params.id);
@@ -43,7 +43,6 @@ const update = async (req, res) => {
 
     // Update the todo here
     todo.description = description;
-    todo.priority = priority;
 
     await todo.save();
 

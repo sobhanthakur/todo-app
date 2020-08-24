@@ -7,12 +7,13 @@ import { getTodos } from "../../redux/actions/todoAction";
 
 const Landing = () => {
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getTodos(false));
-  }, []);
   const state = useSelector((state) => ({
     todos: state.todoReducer,
   }));
+  useEffect(() => {
+    dispatch(getTodos(false));
+  }, [dispatch]);
+
   return (
     <div className="mt-5">
       <TodoForm />

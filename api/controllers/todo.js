@@ -39,9 +39,7 @@ router.put(
   [
     checkObjectId("id"),
     auth,
-    check("title", "Title must be present").not().isEmpty(),
     check("description", "Description must be present").not().isEmpty(),
-    check("priority", "Priority must be present").not().isEmpty(),
   ],
   (req, res) => {
     const errors = validationResult(req);

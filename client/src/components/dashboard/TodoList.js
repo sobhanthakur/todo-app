@@ -1,11 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Badge, Collapse, Button } from "reactstrap";
+import {
+  Badge,
+  Collapse,
+  Button,
+  Form,
+  FormGroup,
+  Input,
+  Spinner,
+} from "reactstrap";
+import { useDispatch } from "react-redux";
+import { removeTodo, updateTodo } from "../../redux/actions/todoAction";
 
 const TodoList = ({ todo }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
+  const dispatch = useDispatch();
+  const [desc, setDesc] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    todo.description && setDesc(todo.description);
+  }, []);
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    await dispatch(updateTodo(todo.priority, todo._id, desc));
+    setLoading(false);
+  };
   return (
     <>
       <tr>
@@ -15,7 +39,20 @@ const TodoList = ({ todo }) => {
             {todo.title}
           </Button>
           <Collapse isOpen={isOpen}>
-                {todo.description}
+            <Form onSubmit={(e) => onSubmit(e)}>
+              <FormGroup>
+                <Input
+                  type="textarea"
+                  value={desc}
+                  onChange={(e) => setDesc(e.target.value)}
+                />
+              </FormGroup>
+              <FormGroup>
+                <Button color="warning" size="sm">
+                  {loading ? <Spinner size="sm"></Spinner> : "update"}
+                </Button>
+              </FormGroup>
+            </Form>
           </Collapse>
         </td>
         <td>
@@ -26,7 +63,12 @@ const TodoList = ({ todo }) => {
           )}
         </td>
         <td>
-          <Badge color="danger">X</Badge>
+          <Badge
+            color="danger"
+            onClick={(e) => dispatch(removeTodo(todo.priority, todo._id))}
+          >
+            X
+          </Badge>
         </td>
       </tr>
     </>

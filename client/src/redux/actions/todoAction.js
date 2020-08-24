@@ -34,3 +34,54 @@ export const getTodos = (priority = false) => async (dispatch) => {
     setAlert("Something went wrong", "danger", 4000);
   }
 };
+
+// Remove Todo
+export const removeTodo = (priority, id) => async (dispatch) => {
+  try {
+    await axios.delete("/api/todo/" + id);
+
+    if (!priority) {
+      dispatch({
+        type: REMOVE_TODO,
+        payload: id,
+      });
+    } else {
+      dispatch({
+        type: REMOVE_PRIORITY_TODO,
+        payload: id,
+      });
+    }
+    setAlert("Todo Deleted", "success", 4000);
+  } catch (err) {
+    setAlert("Something went wrong", "danger", 4000);
+  }
+};
+
+// Update Todo
+export const updateTodo = (priority, id, description) => async (dispatch) => {
+    const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+    
+      const body = JSON.stringify({ description });
+    try {
+      const res = await axios.put("/api/todo/" + id,body,config);
+  
+      if (!priority) {
+        dispatch({
+          type: UPDATE_TODO,
+          payload: res.date,
+        });
+      } else {
+        dispatch({
+          type: UPDATE_PRIORITY_TODO,
+          payload: res.data,
+        });
+      }
+      setAlert("Todo Deleted", "success", 4000);
+    } catch (err) {
+      setAlert("Something went wrong", "danger", 4000);
+    }
+  };
