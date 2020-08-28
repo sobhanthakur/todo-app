@@ -2,6 +2,7 @@ const User = require("../../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const constants = require("../../constants/generalConstants");
+require("dotenv").config();
 
 /*
  * Register User
@@ -41,7 +42,7 @@ const register = async (req, res) => {
 
     jwt.sign(
       payload,
-      process.env.jwtSecret,
+      process.env.JWT_SECRET,
       {
         expiresIn: constants.token_expiry,
       },
@@ -91,7 +92,7 @@ const login = async (req, res) => {
 
     jwt.sign(
       payload,
-      process.env.jwtSecret,
+      process.env.JWT_SECRET,
       {
         expiresIn: constants.token_expiry,
       },
@@ -149,9 +150,9 @@ const userDetails = async (req, res) => {
     const user = await User.findById(req.user.id).select("-password");
     res.json(user);
   } catch (err) {
-    res.status(500).json({'msg':'Unable to fetch user details'})
+    res.status(500).json({ msg: "Unable to fetch user details" });
   }
   return res;
 };
 
-module.exports = { register, login, changePassword,userDetails };
+module.exports = { register, login, changePassword, userDetails };
