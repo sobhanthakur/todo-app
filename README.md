@@ -30,8 +30,8 @@ Features included: <br />
 <li>cd todo-app</li>
 <li>set environment variables for following:
 <ul>
-<li>jwtSecret</li>
-<li>mongoURI</li>
+<li>JWT_SECRET</li>
+<li>MONGO_URI</li>
 </ul>
 </li>
 
